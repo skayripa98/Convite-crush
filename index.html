@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Convite Especial 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom right, #ffd1dc, #ffe4b5);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff5f8;
+      border: 2px solid #f8c6d8;
+      border-radius: 2rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: all 0.5s ease;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #d6336c;
+    }
+    p {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ff1493;
+    }
+    .hidden {
+      display: none;
+    }
+    .options button {
+      margin: 0.5rem;
+    }
+    .gif {
+      width: 100%;
+      border-radius: 1rem;
+      margin-top: 1rem;
+    }
+    .countdown {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="page1">
+    <h1 id="saudacao"></h1>
+    <p>Só os corajosos ganham os melhores rolês... E eu fiz esse convite especialmente pra você 😏💘</p>
+    <button onclick="nextPage(3)">Descobrir</button>
+  </div>
+
+  <div class="container hidden" id="page3">
+    <h1>Escolha uma data 📅</h1>
+    <input type="date" id="dataEncontro" />
+    <button onclick="verificarData()">Próximo</button>
+  </div>
+
+  <div class="container hidden" id="page4">
+    <h1>Comida favorita 🍽️</h1>
+    <div class="options">
+      <button onclick="setComida('Comida Italiana')">Comida Italiana 🍝</button>
+      <button onclick="setComida('Comida Japonesa')">Comida Japonesa 🍣</button>
+      <button onclick="setComida('Comida Americana')">Comida Americana 🍔</button>
+      <button onclick="randomizarComida()">Randomize 🎲</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="page5">
+    <h1>Rolê pós-jantar 🎉</h1>
+    <div class="options">
+      <button onclick="setRole('Cinema')">Cinema 🎬</button>
+      <button onclick="setRole('Boliche')">Boliche 🎳</button>
+      <button onclick="setRole('Karaokê')">Karaokê 🎤</button>
+      <button onclick="setRole('Sinuca')">Sinuca 🎱</button>
+      <button onclick="randomizarRole()">Randomize 🎲</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="page6">
+    <h1>Quase lá 💌</h1>
+    <p>Chegamos na reta final... você aceita esse rolê duvidoso e diferenciado?</p>
+    <button onclick="finalizarConvite()">Aceito 💘</button>
+    <button style="opacity: 0.5; cursor: not-allowed;">Não aceito 😢</button>
+  </div>
+
+  <div class="container hidden" id="page7">
+    <h1>Convite confirmado 🎉</h1>
+    <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" class="gif" alt="Gif fofo" />
+    <audio autoplay loop>
+      <source src="die-with-a-smile.mp3" type="audio/mpeg" />
+      Seu navegador não suporta áudio.
+    </audio>
+    <p id="mensagemFinal"></p>
+    <div class="countdown" id="countdown"></div>
+  </div>
+
+  <script>
+    const nomeCrush = 'Helo'; // <- Edite o nome aqui
+    let dataEscolhida = '';
+    let comida = '';
+    let role = '';
+
+    window.onload = () => {
+      document.getElementById("saudacao").innerHTML = `Oii ${nomeCrush} 👋`;
+    };
+
+    function nextPage(pageNumber) {
+      document.querySelectorAll('.container').forEach(div => div.classList.add('hidden'));
+      document.getElementById(`page${pageNumber}`).classList.remove('hidden');
+    }
+
+    function verificarData() {
+      const dataInput = document.getElementById('dataEncontro').value;
+      if (!dataInput) {
+        alert('Por favor, selecione uma data antes de continuar!');
+        return;
+      }
+      nextPage(4);
+    }
+
+    function setComida(value) {
+      comida = value;
+      nextPage(5);
+    }
+
+    function randomizarComida() {
+      const comidas = ['Comida Italiana', 'Comida Japonesa', 'Comida Americana'];
+      comida = comidas[Math.floor(Math.random() * comidas.length)];
+      nextPage(5);
+    }
+
+    function setRole(value) {
+      role = value;
+      nextPage(6);
+    }
+
+    function randomizarRole() {
+      const roles = ['Cinema', 'Boliche', 'Karaokê', 'Sinuca'];
+      role = roles[Math.floor(Math.random() * roles.length)];
+      nextPage(6);
+    }
+
+    function finalizarConvite() {
+      dataEscolhida = document.getElementById('dataEncontro').value;
+      if (!dataEscolhida) {
+        alert("Por favor, escolha uma data para o encontro.");
+        return;
+      }
+
+      const dataFormatada = new Date(dataEscolhida).toLocaleDateString('pt-BR');
+      const mensagem = `Ei ${nomeCrush}! 💕 Tá preparada pra um jantar ${comida} no dia ${dataFormatada} e depois um ${role} que pode mudar nossas vidas? 😘`;
+
+      nextPage(7);
+      iniciarContagem(dataEscolhida);
+      document.getElementById("mensagemFinal").innerText = mensagem;
+    }
+
+    function iniciarContagem(dataStr) {
+      const countdownEl = document.getElementById('countdown');
+      const targetDate = new Date(dataStr);
+      const interval = setInterval(() => {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          clearInterval(interval);
+          countdownEl.textContent = 'É hoje! 💖';
+          return;
+        }
+
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diff / (1000 * 60)) % 60);
+        const segundos = Math.floor((diff / 1000) % 60);
+
+        countdownEl.textContent = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s pro nosso date 😍`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
